@@ -4,7 +4,6 @@ import SyntaxTree from "./components/SyntaxTree";
 import DfaDiagram from "./components/DfaDiagram";
 import "./App.css";
 
-const EXAMPLES = ["(a|b)*abb", "a(b|c)*", "(ab|c)*d", "a*b*"];
 const fmt = (s) => "{" + sorted(s).join(", ") + "}";
 
 export default function App() {
@@ -29,8 +28,7 @@ export default function App() {
       <header>
         <h1>Regex to DFA</h1>
         <p className="lede">
-          Builds the syntax tree and DFA directly from a regular expression using
-          nullable, firstpos, lastpos and followpos.
+          Convert a regular expression into a DFA along with syntax tree using Direct method.
         </p>
       </header>
 
@@ -52,15 +50,7 @@ export default function App() {
         <button type="submit">Build DFA</button>
       </form>
 
-      <div className="chips">
-        <span>Try:</span>
-        {EXAMPLES.map((ex) => (
-          <button key={ex} type="button" className="chip" onClick={() => run(ex)}>
-            {ex}
-          </button>
-        ))}
-      </div>
-      <p className="hint">Supported: letters, digits, <code>|</code> (or), <code>*</code> (star), <code>( )</code>. Concatenation is implicit. <code>#</code> is reserved as the end marker.</p>
+      <p className="hint">Supported: letters, digits, <code>|</code>, <code>*</code>, <code>( )</code>. Concatenation is implicit. <code>#</code> is reserved as the end marker.</p>
 
       {error && <div className="error" role="alert">{error}</div>}
 
@@ -69,16 +59,15 @@ export default function App() {
           <section>
             <h2>Preprocessing</h2>
             <dl className="kv">
-              <dt>With concatenation and end marker</dt>
+              <dt>With concatenation and end marker:</dt>
               <dd><code>{result.withConcat}</code></dd>
-              <dt>Postfix</dt>
+              <dt>Postfix:</dt>
               <dd><code>{result.postfix}</code></dd>
             </dl>
           </section>
 
           <section>
             <h2>Syntax tree</h2>
-            <p className="hint">Numbers under the leaves are positions. Hover a node to see nullable, firstpos and lastpos.</p>
             <SyntaxTree root={result.root} />
           </section>
 
